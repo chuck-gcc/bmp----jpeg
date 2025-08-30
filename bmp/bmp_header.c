@@ -1,50 +1,54 @@
 #include "bmp.h"
 
+int to_binary(unsigned char *byte, int size)
+{
+    int bit, offset;
+    int i;
+    int value;
+        
+    
+    i =  size - 1;
+    while (i >= 0)
+    {
+        bit = 31;
+        offset = 7;
+        value = 0;
+        while (bit >= 0)
+        {
+            int c = byte[i] >> offset & 1;
+            if(c == 1)
+                value =  value | (1 << bit);
+            offset--;
+            if(offset < 0)
+            {
+                offset = 7;
+                i--;
+            }
+            //printf("%d", c);
+            bit--;
+        }
+
+    }
+    printf("\n");
+    return(value);
+}
+
 void display_header(t_header *head)
 {
-    TEST_START("display header");
-    int i;
-    unsigned char *h[4];
-
-    i = 0;
-
-    h[0] = head->signature;
-    h[1] = head->file_size;
-    h[2] = head->reserved;
-    h[3] = head->data_offset;
-
-    while (i < 4)
-    {
-        int j = 0;
-        int size;
-        if(i == 0)
-            size = 2;
-        else
-            size = 4;
-
-        if(i == 0)
-            printf("\nsignature: ");
-        else if(i == 1)
-            printf("\nFile size: ");
-        else if(i == 2)
-            printf("\nReserved: ");
-        else if(i == 3)
-            printf("\nOffset: ");
-            
-        while (j < size)
-        {
-            printf("%d ",h[i][j]);
-            j++;
-        }
-        i++;
-    }
+    TEST_START("display header\n");
+    printf("File size: %c%c", head->signature[0],head->signature[1]);
+    printf("File size: %d kb", to_binary(head->file_size,4));
+    printf("Offset Data: %d kb", to_binary(head->data_offset, 4));
     printf("\n");
 }
 
+
 int get_data_header(t_header *header,char *path)
 {
-    int fd;
-    int b_read_1, b_read_2, b_read_3, b_read_4;
+    int fd, i;
+    unsigned char *champs[4];
+    int b_read;
+
 
     fd = open(path,O_RDONLY);
     if(fd == -1)
@@ -53,30 +57,23 @@ int get_data_header(t_header *header,char *path)
         printf("%d\n", errno);
         return(errno);
     }
-
-    b_read_1 = read(fd,header->signature,2);
-    if(b_read_1  == -1)
+    champs[0] = header->signature;
+    champs[1] = header->file_size;
+    champs[2] = header->reserved;
+    champs[3] = header->data_offset;
+    i = 0;
+    while (i < 4)
     {
-        perror("Err signature:");
-        return(errno);
-    }
-    b_read_2 = read(fd,header->file_size,4);
-    if(b_read_2  == -1)
-    {
-        perror("Err file size:");
-        return(errno);
-    }
-    b_read_3 =  read(fd,header->reserved,4);
-    if(b_read_3  == -1)
-    {
-        perror("Err reserved:");
-        return(errno);
-    }
-    b_read_4 = read(fd,header->data_offset,4);
-    if(b_read_4  == -1)
-    {
-        perror("Err offset header:");
-        return(errno);
+        if(i == 0)
+            b_read = read(fd,champs[i],2);
+        else    
+            b_read = read(fd,champs[i],4);
+        if(b_read  == -1)
+        {
+            perror("Err :");
+            return(i);
+        }
+        i++;
     }
     close(fd);
     return(0);

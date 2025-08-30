@@ -8,7 +8,7 @@ SRCS = main.c \
 OBJS = $(SRCS:%.c=%.o)
 
 %.o:%.c
-	$(CC) $(GFLAGS) $< -c -o $@
+	@$(CC) $(GFLAGS) $< -c -o $@
 
 $(NAME): $(OBJS)
 	@$(CC)  $(OBJS) -o $(NAME)
