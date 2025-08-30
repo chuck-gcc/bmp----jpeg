@@ -14,10 +14,11 @@ $(NAME): $(OBJS)
 	@$(CC)  $(OBJS) -o $(NAME)
 
 run: $(NAME)
-	@./$(NAME)
+	@ valgrind --log-file=valgrind --leak-check=full --track-fds=all ./$(NAME)
 
 clean:
 	rm -f $(OBJS)
+	rm -f valgrind
 
 fclean: clean
 	rm -f $(NAME)

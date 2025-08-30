@@ -49,8 +49,9 @@ int get_data_header(t_header *header,char *path)
     fd = open(path,O_RDONLY);
     if(fd == -1)
     {
-        perror("err:");
-        return(1);
+        perror("err fd:");
+        printf("%d\n", errno);
+        return(errno);
     }
 
     b_read_1 = read(fd,header->signature,2);
@@ -77,6 +78,7 @@ int get_data_header(t_header *header,char *path)
         perror("Err offset header:");
         return(errno);
     }
+    close(fd);
     return(0);
 }
 
