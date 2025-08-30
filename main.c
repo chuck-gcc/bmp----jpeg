@@ -60,7 +60,7 @@ int main(void)
     header = get_header_object();
     if(!header)
         return(-1);
-    if((header->get_header(header,"imaget.bmp")) != 0)
+    if((header->get_header(header,"image/imaget.bmp")) != 0)
     {
         free(header);
         return(1);
@@ -69,7 +69,7 @@ int main(void)
     info = get_info_header_object();
     if(!info)
         return(1);
-    info->get_info_header(info,"imaget.bmp", 14);
+    info->get_info_header(info,"image/imaget.bmp", 14);
 
     printf("%d\n", to_binary(info->height, 4));
 
