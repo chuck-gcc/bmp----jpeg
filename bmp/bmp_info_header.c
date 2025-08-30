@@ -2,9 +2,6 @@
 
 #define CHAMPS_COUNT 11
 
-int to_binary(unsigned char *byte, int size);
-void to_raw(unsigned char *byte, int size);
-
 void display_header_info(t_info_header *info)
 {
     TEST_START("display header info\n");
@@ -52,7 +49,7 @@ void display_raw_header_info(t_info_header *info)
 
 void display_hex_header_info(t_info_header *info)
 {
-    TEST_START("display  raw header info\n");
+    TEST_START("display hex header info\n");
     printf("Size info header:");
     to_hex(info->sizeIh, 4);
     printf("Image width: ");
@@ -93,6 +90,7 @@ static  void init_champs(unsigned char *champs[11], t_info_header *info)
     champs[10] = info->imortant_colors;
 }
 
+//get info header from bmp file;
 int get_info_header(t_info_header *info, char *path, int offset)
 {
     int fd, i;
@@ -130,6 +128,7 @@ int get_info_header(t_info_header *info, char *path, int offset)
     return(0);
 }
 
+// create an header info object;
 t_info_header *get_info_header_object(void)
 {
     t_info_header *info;

@@ -8,23 +8,6 @@
 
 #include "bmp/bmp.h"
 
-int to_binary(unsigned char *byte, int size);
-
-int test(void)
-{
-    int bit =  7;
-    int v = 0;
-
-    while (bit >= 0)
-    {
-        v  =  100 >> bit;
-        bit--;
-    }
-    printf("final: %d\n", v );
-
-    return(0);
-}
-
 void write_data(char *path)
 {
     int fd;
@@ -51,16 +34,23 @@ void write_data(char *path)
      
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 
     t_header        *header;
     t_info_header   *info;
     
+
+    if(argc < 2)
+    {
+        printf("Error set thr path: export IMG_PATH= your image path\n");
+        return(1);
+    }
+    
     header = get_header_object();
     if(!header)
         return(-1);
-    if((header->get_header(header,"image/imaget.bmp")) != 0)
+    if((header->get_header(header,argv[1])) != 0)
     {
         free(header);
         return(1);
@@ -69,16 +59,24 @@ int main(void)
     info = get_info_header_object();
     if(!info)
         return(1);
-    info->get_info_header(info,"image/imaget.bmp", 14);
+    info->get_info_header(info,argv[1], 14);
 
 
     assert(to_binary(info->height, 4) == 441);
     assert(to_binary(info->width, 4) == 660);
 
-    info->display_header_info(info);
-    info->display_raw_header_info(info);
-    info->display_hex_header_info(info);
-
+    // info->display_header_info(info);
+    // info->display_raw_header_info(info);
+    // info->display_hex_header_info(info);
+    unsigned char *data =  get_image_data(header, info, argv[1]);
+    int i = 0;
+    while (i < 10)
+    {
+        printf("%d ",data[i]);
+        i++;
+    }
+    
+    free(data);
     free(header);
     free(info);
     return(0);

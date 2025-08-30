@@ -6,6 +6,7 @@ SRCS = main.c \
 		bmp/bmp_header.c \
 		bmp/bmp_info_header.c \
 		bmp/bmp_display_format.c \
+		bmp/bmp_image_data.c \
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -16,8 +17,7 @@ $(NAME): $(OBJS)
 	@$(CC)  $(OBJS) -o $(NAME)
 
 run: $(NAME)
-	@ valgrind -s --log-file=valgrind --leak-check=full --track-fds=all ./$(NAME)
-
+	@ valgrind -s --log-file=valgrind --leak-check=full --track-fds=all ./$(NAME) $(IMG_PATH)
 clean:
 	rm -f $(OBJS)
 	rm -f valgrind

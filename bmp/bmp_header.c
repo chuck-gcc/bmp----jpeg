@@ -1,17 +1,16 @@
 #include "bmp.h"
 
 
-void display_header(t_header *head)
+static void display_header(t_header *head)
 {
-    TEST_START("\ndisplay header\n");
+    TEST_START("display header\n");
     printf("File signature: %c%c\n", head->signature[0],head->signature[1]);
     printf("File size: %d kb\n", to_binary(head->file_size,4));
     printf("Offset Data: %d kb\n", to_binary(head->data_offset, 4));
     printf("\n");
 }
 
-
-int get_data_header(t_header *header,char *path)
+static int get_data_header(t_header *header,char *path)
 {
     int fd, i;
     unsigned char *champs[4];
