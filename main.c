@@ -29,7 +29,8 @@ int test(void)
 int main(void)
 {
 
-    t_header *header;
+    t_header        *header;
+    t_info_header   *info;
     
     header = get_header_object();
     if(!header)
@@ -41,6 +42,13 @@ int main(void)
     }
     header->display_header(header);
     free(header);
+
+    info = get_info_header_object();
+    if(!info)
+        return(1);
+
+    info->get_info_header(info,"imaget.bmp");
+    free(info);
     return(0);
 
 }

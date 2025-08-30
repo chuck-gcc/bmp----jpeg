@@ -27,23 +27,26 @@ typedef struct s_header
 
 //header size 40 bytes
 
-typedef struct s_Infoheader
+typedef struct s_info_header
 {   
     unsigned char sizeIh[4]; // size of info header;
-    unsigned char *width[4];
-    unsigned char *height[4];
-    unsigned char *planes[2];
-    unsigned char *b_per_pixel[2];
-    unsigned char *compression_type[4];
-    unsigned char *image_size[4];
-    unsigned char *XpixelsPerM[4];
-    unsigned char *YpixelsPerM[4];
-    unsigned char *color_used[4];
-    unsigned char *imortant_colors[4];
+    unsigned char width[4];
+    unsigned char height[4];
+    unsigned char planes[2];
+    unsigned char b_per_pixel[2];
+    unsigned char compression_type[4];
+    unsigned char image_size[4];
+    unsigned char XpixelsPerM[4];
+    unsigned char YpixelsPerM[4];
+    unsigned char color_used[4];
+    unsigned char imortant_colors[4];
+    int (*get_info_header)(struct s_info_header *info, char *path);
+
     
-} t_Infoheader;
+} t_info_header;
 
 
 t_header *get_header_object(void);
+t_info_header *get_info_header_object(void);
 
 #endif

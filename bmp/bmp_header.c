@@ -36,7 +36,7 @@ int to_binary(unsigned char *byte, int size)
 void display_header(t_header *head)
 {
     TEST_START("display header\n");
-    printf("File size: %c%c", head->signature[0],head->signature[1]);
+    printf("File signature: %c%c", head->signature[0],head->signature[1]);
     printf("File size: %d kb", to_binary(head->file_size,4));
     printf("Offset Data: %d kb", to_binary(head->data_offset, 4));
     printf("\n");
