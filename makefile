@@ -2,7 +2,8 @@ NAME=jpeg_encoder
 CC=gcc
 GFLAGS = -Werror -Wextra -Wall
 
-SRCS = main.c
+SRCS = main.c \
+		bmp/*.c \
 
 OBJS = $(SRCS:%.c=%.o)
 
