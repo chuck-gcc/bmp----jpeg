@@ -1,44 +1,12 @@
 #include "bmp.h"
 
-int to_binary(unsigned char *byte, int size)
-{
-    int bit, offset;
-    int i;
-    int value;
-        
-    
-    i =  size - 1;
-    while (i >= 0)
-    {
-        bit = 31;
-        offset = 7;
-        value = 0;
-        while (bit >= 0)
-        {
-            int c = byte[i] >> offset & 1;
-            if(c == 1)
-                value =  value | (1 << bit);
-            offset--;
-            if(offset < 0)
-            {
-                offset = 7;
-                i--;
-            }
-            //printf("%d", c);
-            bit--;
-        }
-
-    }
-    printf("\n");
-    return(value);
-}
 
 void display_header(t_header *head)
 {
-    TEST_START("display header\n");
-    printf("File signature: %c%c", head->signature[0],head->signature[1]);
-    printf("File size: %d kb", to_binary(head->file_size,4));
-    printf("Offset Data: %d kb", to_binary(head->data_offset, 4));
+    TEST_START("\ndisplay header\n");
+    printf("File signature: %c%c\n", head->signature[0],head->signature[1]);
+    printf("File size: %d kb\n", to_binary(head->file_size,4));
+    printf("Offset Data: %d kb\n", to_binary(head->data_offset, 4));
     printf("\n");
 }
 

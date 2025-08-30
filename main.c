@@ -71,10 +71,13 @@ int main(void)
         return(1);
     info->get_info_header(info,"image/imaget.bmp", 14);
 
-    printf("%d\n", to_binary(info->b_per_pixel, 2));
 
     assert(to_binary(info->height, 4) == 441);
     assert(to_binary(info->width, 4) == 660);
+
+    info->display_header_info(info);
+    info->display_raw_header_info(info);
+    info->display_hex_header_info(info);
 
     free(header);
     free(info);

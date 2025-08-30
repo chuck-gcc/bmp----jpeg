@@ -41,12 +41,17 @@ typedef struct s_info_header
     unsigned char color_used[4];
     unsigned char imortant_colors[4];
     int (*get_info_header)(struct s_info_header *info, char *path, int offset);
-
+    void (*display_header_info)(struct s_info_header *info);
+    void (*display_raw_header_info)(struct s_info_header *info);
+    void (*display_hex_header_info)(struct s_info_header *info);
     
 } t_info_header;
 
 
 t_header *get_header_object(void);
 t_info_header *get_info_header_object(void);
+void to_hex(unsigned char *byte, int size);
+void to_raw(unsigned char *byte, int size);
+int to_binary(unsigned char *byte, int size);
 
 #endif

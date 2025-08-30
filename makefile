@@ -5,6 +5,7 @@ COM=
 SRCS = main.c \
 		bmp/bmp_header.c \
 		bmp/bmp_info_header.c \
+		bmp/bmp_display_format.c \
 
 OBJS = $(SRCS:%.c=%.o)
 
