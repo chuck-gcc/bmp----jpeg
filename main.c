@@ -8,25 +8,37 @@
 
 #include "bmp/bmp.h"
 
-void to_binary(unsigned char *byte, int size)
+int to_binary(unsigned char *byte, int size)
 {
-    int bit;
+    int bit, offset;
     int i;
+    int value;
+        
+    
     i =  size - 1;
     while (i >= 0)
     {
-        bit = 7;
+        bit = 31;
+        offset = 7;
+        value = 0;
         while (bit >= 0)
         {
-            int c = byte[i] >> bit & 1;
+            int c = byte[i] >> offset & 1;
+            if(c == 1)
+                value =  value | (1 << bit);
+            offset--;
+            if(offset < 0)
+            {
+                offset = 7;
+                i--;
+            }
             printf("%d", c);
             bit--;
         }
 
-        i--;
     }
     printf("\n");
-
+    return(value);
 }
 
 
@@ -58,8 +70,10 @@ int main(void)
         free(header);
         return(1);
     }
-    to_binary(header->file_size, FILE_SIZE);
-
+    int size_file = to_binary(header->file_size, FILE_SIZE);
+    int off = to_binary(header->data_offset, OFFSET);
+    printf("File size: %d Kb\n", size_file);
+    printf("header offset: %d Kb\n", off);
     free(header);
     return(0);
 

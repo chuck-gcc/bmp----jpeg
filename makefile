@@ -1,7 +1,7 @@
 NAME=jpeg_encoder
 CC=gcc
 GFLAGS = -Werror -Wextra -Wall
-
+COM=
 SRCS = main.c \
 		bmp/*.c \
 
@@ -22,3 +22,8 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+
+git: fclean
+	git add .
+	git commit -m $(COM)
+	git push origin main
