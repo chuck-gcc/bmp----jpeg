@@ -40,7 +40,7 @@ typedef struct s_info_header
     unsigned char YpixelsPerM[4];
     unsigned char color_used[4];
     unsigned char imortant_colors[4];
-    int (*get_info_header)(struct s_info_header *info, char *path);
+    int (*get_info_header)(struct s_info_header *info, char *path, int offset);
 
     
 } t_info_header;

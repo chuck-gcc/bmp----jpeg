@@ -8,8 +8,7 @@
 
 #include "bmp/bmp.h"
 
-
-
+int to_binary(unsigned char *byte, int size);
 
 int test(void)
 {
@@ -24,6 +23,32 @@ int test(void)
     printf("final: %d\n", v );
 
     return(0);
+}
+
+void write_data(char *path)
+{
+    int fd;
+    int b_read;
+    unsigned char b[1];
+    int i;
+
+    if((fd = open(path, O_RDONLY))== -1)
+    {
+        perror("err write data: ");
+        return;
+    }
+    i = 0;
+    while ((b_read = read(fd, b, 1)) > 0)
+    {
+       printf("%d ", b[0]);
+        if(i == 15)
+        {
+            printf("\n");
+            i = 0;
+        }
+        i++;
+    }
+     
 }
 
 int main(void)
@@ -41,13 +66,17 @@ int main(void)
         return(1);
     }
     header->display_header(header);
-    free(header);
-
     info = get_info_header_object();
     if(!info)
         return(1);
+    info->get_info_header(info,"imaget.bmp", 14);
 
-    info->get_info_header(info,"imaget.bmp");
+    printf("%d\n", to_binary(info->height, 4));
+
+    assert(to_binary(info->height, 4) == 441);
+    assert(to_binary(info->width, 4) == 660);
+
+    free(header);
     free(info);
     return(0);
 

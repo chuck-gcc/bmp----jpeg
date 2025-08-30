@@ -2,6 +2,8 @@
 
 #define CHAMPS_COUNT 11
 
+int to_binary(unsigned char *byte, int size);
+
 static  void init_champs(unsigned char *champs[11], t_info_header *info)
 {   
     champs[0] = info->sizeIh;
@@ -17,7 +19,7 @@ static  void init_champs(unsigned char *champs[11], t_info_header *info)
     champs[10] = info->imortant_colors;
 }
 
-int get_info_header(t_info_header *info, char *path)
+int get_info_header(t_info_header *info, char *path, int offset)
 {
     int fd, i;
     unsigned char *champs[CHAMPS_COUNT];
@@ -28,6 +30,12 @@ int get_info_header(t_info_header *info, char *path)
     {
         perror("err fd:");
         printf("%d\n", errno);
+        return(errno);
+    }
+    printf("voici offset %d\n", offset);
+    if(lseek(fd,offset, SEEK_SET) == -1)
+    {
+        perror("lseek error\n");
         return(errno);
     }
     init_champs(champs,info);
@@ -46,9 +54,6 @@ int get_info_header(t_info_header *info, char *path)
         i++;
     }
     close(fd);
-    close(42);
-    close(41);
-    close(103);
     return(0);
 }
 
