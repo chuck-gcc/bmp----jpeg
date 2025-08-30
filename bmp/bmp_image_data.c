@@ -3,6 +3,7 @@
 unsigned char *get_image_data(t_header *header, t_info_header *info, char *path)
 {
     int fd, img_size, offset, b_read;
+    unsigned char *data;
 
     fd = open(path, O_RDONLY);
     if (fd == -1)
@@ -13,7 +14,9 @@ unsigned char *get_image_data(t_header *header, t_info_header *info, char *path)
     offset = to_binary(header->data_offset, 4);
     img_size = to_binary(info->image_size, 4);
 
-    
+    data = malloc(img_size * sizeof(unsigned char));
+    if(!data)
+        return(NULL);
     assert(img_size == 873180);
     assert(offset == 54);
 
@@ -28,6 +31,5 @@ unsigned char *get_image_data(t_header *header, t_info_header *info, char *path)
         perror("Read error:");
         return(NULL);
     }
-        
     return(data);
 } 
