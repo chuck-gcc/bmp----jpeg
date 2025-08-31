@@ -7,6 +7,7 @@
 #define OFFSET 4
 
 #include "bmp/bmp.h"
+#include  "libft/libft.h"
 
 void write_data(char *path)
 {
@@ -32,6 +33,45 @@ void write_data(char *path)
         i++;
     }
      
+}
+
+int get_raw_data(unsigned char *data, t_info_header *info)
+{
+
+    int i = 0;
+    int off = 0;
+    int fd;
+    char *value;
+
+    fd = open("image/raw_data", (O_CREAT | O_WRONLY), 0777);
+    if(fd == -1)
+    {
+        perror("Err raw data:");
+        return(errno);
+    }
+
+    while (i < to_binary(info->image_size, 4))
+    {
+        value = ft_itoa((int)data[i]);
+        write(fd, value, ft_strlen(value));
+        write(fd, " ", 1);
+        // if() == -1)
+        // {
+        //     perror("Err raw data writing:");
+        //     free(value);
+        //     return(errno);
+        // }
+        free(value);
+        off++;
+        if(off == to_binary(info->width, 4) * 3)
+        {
+            off = 0;
+            write(fd, "\n", 1);
+        }
+        i++;
+    }
+    close(fd);
+    return(0);
 }
 
 int main(int argc, char **argv)
@@ -69,13 +109,8 @@ int main(int argc, char **argv)
     // info->display_raw_header_info(info);
     // info->display_hex_header_info(info);
     unsigned char *data =  get_image_data(header, info, argv[1]);
-    int i = 0;
-    while (i < 10)
-    {
-        printf("%d ",data[i]);
-        i++;
-    }
-    
+    get_raw_data(data, info);
+
     free(data);
     free(header);
     free(info);

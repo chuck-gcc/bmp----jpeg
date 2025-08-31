@@ -2,6 +2,7 @@ NAME=jpeg_encoder
 CC=gcc
 GFLAGS = -Werror -Wextra -Wall
 COM=
+LIB= -Llibft -lft
 SRCS = main.c \
 		bmp/bmp_header.c \
 		bmp/bmp_info_header.c \
@@ -14,7 +15,7 @@ OBJS = $(SRCS:%.c=%.o)
 	@$(CC) $(GFLAGS) $< -c -o $@
 
 $(NAME): $(OBJS)
-	@$(CC)  $(OBJS) -o $(NAME)
+	@$(CC)  $(OBJS) $(LIB) -o $(NAME)
 
 run: $(NAME)
 	@ valgrind -s --log-file=valgrind --leak-check=full --track-fds=all ./$(NAME) $(IMG_PATH)
@@ -24,6 +25,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f raw_data
 
 git: fclean
 	git add .
