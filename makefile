@@ -4,6 +4,7 @@ GFLAGS = -Werror -Wextra -Wall
 COM=
 LIB= -Llibft -lft
 SRCS = main.c \
+		bmp/bmp.c \
 		bmp/bmp_header.c \
 		bmp/bmp_info_header.c \
 		bmp/bmp_display_format.c \
@@ -25,7 +26,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f raw_data
+	rm -f image/raw_data
 
 git: fclean
 	git add .

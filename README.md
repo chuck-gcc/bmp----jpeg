@@ -65,7 +65,7 @@ Color used: 0x0000
 Color: 0x0000
 
 
-## build 3d matrice:    
+## build 3d matrice with raw:    
 
 number of line = info.height
 number of column = info.width  
@@ -78,6 +78,8 @@ depth = 3 (rgb)
 ]
 
 ## build jpeg compressor / decompressor
+
+### Step 1: rgb to YcbCr
 
 ## explore some test in gpu programmation on image.
 

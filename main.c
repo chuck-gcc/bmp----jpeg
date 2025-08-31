@@ -74,11 +74,13 @@ int get_raw_data(unsigned char *data, t_info_header *info)
     return(0);
 }
 
+
+
+
 int main(int argc, char **argv)
 {
 
-    t_header        *header;
-    t_info_header   *info;
+    t_bmp *bmp;
     
 
     if(argc < 2)
@@ -87,33 +89,14 @@ int main(int argc, char **argv)
         return(1);
     }
     
-    header = get_header_object();
-    if(!header)
-        return(-1);
-    if((header->get_header(header,argv[1])) != 0)
-    {
-        free(header);
+    bmp = extract_bmp_data(argv[1]);
+    if(!bmp)
         return(1);
-    }
-    header->display_header(header);
-    info = get_info_header_object();
-    if(!info)
-        return(1);
-    info->get_info_header(info,argv[1], 14);
 
+    bmp->header->display_header(bmp->header);
+    bmp->info->display_header_info(bmp->info);
 
-    assert(to_binary(info->height, 4) == 441);
-    assert(to_binary(info->width, 4) == 660);
-
-    // info->display_header_info(info);
-    // info->display_raw_header_info(info);
-    // info->display_hex_header_info(info);
-    unsigned char *data =  get_image_data(header, info, argv[1]);
-    get_raw_data(data, info);
-
-    free(data);
-    free(header);
-    free(info);
+    bmp->clean(bmp);
     return(0);
 
 }

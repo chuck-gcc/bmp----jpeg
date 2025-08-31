@@ -20,7 +20,7 @@ typedef struct s_header
     unsigned char file_size[4];
     unsigned char reserved[4];
     unsigned char data_offset[4];
-    int (*get_header)(struct s_header *head, char *path);
+    int (*get_header)(struct s_header *head, const char *path);
     void (*display_header)(struct s_header *header);
     
 } t_header;
@@ -40,7 +40,7 @@ typedef struct s_info_header
     unsigned char YpixelsPerM[4];
     unsigned char color_used[4];
     unsigned char imortant_colors[4];
-    int (*get_info_header)(struct s_info_header *info, char *path, int offset);
+    int (*get_info_header)(struct s_info_header *info, const char *path, int offset);
     void (*display_header_info)(struct s_info_header *info);
     void (*display_raw_header_info)(struct s_info_header *info);
     void (*display_hex_header_info)(struct s_info_header *info);
@@ -48,11 +48,25 @@ typedef struct s_info_header
 } t_info_header;
 
 
-t_header *get_header_object(void);
-t_info_header *get_info_header_object(void);
+typedef struct s_bmp
+{
+    
+    t_header        *header;
+    t_info_header   *info;
+    unsigned char   *data;
+    int (*clean)(struct s_bmp *bmp);
+
+} t_bmp;
+
+
+
+t_header        *get_header_object(const char *path);
+t_info_header   *get_info_header_object(const char *path, int offset);
 void to_hex(unsigned char *byte, int size);
 void to_raw(unsigned char *byte, int size);
 int to_binary(unsigned char *byte, int size);
-unsigned char *get_image_data(t_header *header, t_info_header *info, char *path);
+unsigned char *get_image_data(t_header *header, t_info_header *info,const char *path);
+
+t_bmp *extract_bmp_data(const char *path);
 
 #endif

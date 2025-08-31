@@ -1,6 +1,6 @@
 #include "bmp.h"
 
-unsigned char *get_image_data(t_header *header, t_info_header *info, char *path)
+unsigned char *get_image_data(t_header *header, t_info_header *info, const char *path)
 {
     int fd, img_size, offset, b_read;
     unsigned char *data;
@@ -14,9 +14,14 @@ unsigned char *get_image_data(t_header *header, t_info_header *info, char *path)
     offset = to_binary(header->data_offset, 4);
     img_size = to_binary(info->image_size, 4);
 
+    printf("%d\n", img_size);
     data = malloc(img_size * sizeof(unsigned char));
     if(!data)
+    {
+        perror("malloc:");
         return(NULL);
+    }
+    
     assert(img_size == 873180);
     assert(offset == 54);
 
@@ -25,11 +30,13 @@ unsigned char *get_image_data(t_header *header, t_info_header *info, char *path)
         perror("lseek error\n");
         return(NULL);
     }
+
     b_read = read(fd, data, img_size);
     if(b_read == -1)
     {
         perror("Read error:");
         return(NULL);
     }
+
     return(data);
 } 

@@ -10,7 +10,7 @@ static void display_header(t_header *head)
     printf("\n");
 }
 
-static int get_data_header(t_header *header,char *path)
+static int get_data_header(t_header *header,const char *path)
 {
     int fd, i;
     unsigned char *champs[4];
@@ -46,7 +46,7 @@ static int get_data_header(t_header *header,char *path)
     return(0);
 }
 
-t_header *get_header_object(void)
+t_header *get_header_object(const char *path)
 {
     t_header *header;
 
@@ -58,5 +58,10 @@ t_header *get_header_object(void)
     }
     header->get_header = get_data_header;
     header->display_header = display_header;
+    if(header->get_header(header, path) != 0)
+    {
+        free(header);
+        return(NULL);
+    }
     return(header);
 }

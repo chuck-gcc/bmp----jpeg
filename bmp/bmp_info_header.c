@@ -91,7 +91,7 @@ static  void init_champs(unsigned char *champs[11], t_info_header *info)
 }
 
 //get info header from bmp file;
-int get_info_header(t_info_header *info, char *path, int offset)
+int get_info_header(t_info_header *info, const char *path, int offset)
 {
     int fd, i;
     unsigned char *champs[CHAMPS_COUNT];
@@ -102,12 +102,12 @@ int get_info_header(t_info_header *info, char *path, int offset)
     {
         perror("err fd:");
         printf("%d\n", errno);
-        return(errno);
+        return(1);
     }
     if(lseek(fd,offset, SEEK_SET) == -1)
     {
         perror("lseek error\n");
-        return(errno);
+        return(2);
     }
     init_champs(champs,info);
     i = 0;
@@ -120,7 +120,7 @@ int get_info_header(t_info_header *info, char *path, int offset)
         if(b_read  == -1)
         {
             perror("Err :");
-            return(i);
+            return(3);
         }
         i++;
     }
@@ -129,10 +129,12 @@ int get_info_header(t_info_header *info, char *path, int offset)
 }
 
 // create an header info object;
-t_info_header *get_info_header_object(void)
+t_info_header *get_info_header_object(const char *path, int offset)
 {
     t_info_header *info;
 
+    (void)path;
+    (void)offset;
     info = malloc(sizeof(t_info_header));
     if(!info)
     {
@@ -143,5 +145,11 @@ t_info_header *get_info_header_object(void)
     info->display_header_info = display_header_info;
     info->display_raw_header_info = display_raw_header_info;
     info->display_hex_header_info = display_hex_header_info;
+
+    if(info->get_info_header(info,path, offset) != 0)
+    {
+        free(info);
+        return(NULL);
+    }
     return(info);
 }
