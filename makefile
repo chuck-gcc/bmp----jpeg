@@ -18,8 +18,9 @@ OBJS = $(SRCS:%.c=%.o)
 $(NAME): $(OBJS)
 	@$(CC)  $(OBJS) $(LIB) -o $(NAME)
 
+
 run: $(NAME)
-	@ valgrind -s --log-file=valgrind --leak-check=full --track-fds=all ./$(NAME) $(IMG_PATH)
+	@ valgrind -s --log-file=valgrind --leak-check=full --show-leak-kinds=all --track-fds=all ./$(NAME) $(IMG_PATH)
 clean:
 	rm -f $(OBJS)
 	rm -f valgrind

@@ -66,6 +66,7 @@ void to_hex(unsigned char *byte, int size);
 void to_raw(unsigned char *byte, int size);
 int to_binary(unsigned char *byte, int size);
 unsigned char *get_image_data(t_header *header, t_info_header *info,const char *path);
+u_int8_t ***get_matrice_data(unsigned char *data, t_info_header *info);
 
 t_bmp *extract_bmp_data(const char *path);
 
