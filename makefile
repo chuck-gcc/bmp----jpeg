@@ -3,6 +3,7 @@ CC=gcc
 GFLAGS = -Werror -Wextra -Wall
 COM=
 LIB= -Llibft -lft
+
 SRCS = main.c \
 		bmp/bmp.c \
 		bmp/bmp_header.c \

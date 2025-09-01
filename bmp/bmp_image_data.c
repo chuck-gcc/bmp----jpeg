@@ -23,6 +23,11 @@ void *clean_matrice_data(u_int8_t ***matrice, int x, int y, int stop)
     return(NULL);
 }
 
+void    display_pixel_matrice(u_int8_t ***matrice,int x, int y)
+{
+    printf("R:%d G:%d B:%d\n", matrice[x][y][0], matrice[x][y][1], matrice[x][y][2]);
+}
+
 u_int8_t ***get_matrice_data(unsigned char *data, t_info_header *info)
 {
     int i, j, k, l;
@@ -52,11 +57,7 @@ u_int8_t ***get_matrice_data(unsigned char *data, t_info_header *info)
                 matrice[i] = NULL;
             }
         */
-        if(i == 100)
-        {
-            free(matrice[i]);
-            matrice[i] = NULL;
-        }
+        
         if(!matrice[i])
             return(clean_matrice_data(matrice,i ,col, col));
         j = 0;
@@ -108,7 +109,6 @@ unsigned char *get_image_data(t_header *header, t_info_header *info, const char 
     offset = to_binary(header->data_offset, 4);
     img_size = to_binary(info->image_size, 4);
 
-    printf("%d\n", img_size);
     data = malloc(img_size * sizeof(unsigned char));
     if(!data)
     {

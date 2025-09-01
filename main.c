@@ -9,6 +9,8 @@
 #include "bmp/bmp.h"
 #include  "libft/libft.h"
 
+
+
 void write_data(char *path)
 {
     int fd;
@@ -75,44 +77,7 @@ int get_raw_data(unsigned char *data, t_info_header *info)
 }
 
 
-// int get_matrice_data(unsigned char *data, t_info_header *info)
-// {
-//     int i, j, k, l;
-//     int raw, col, depht;
 
-//     raw = to_binary(info->height, 4);
-//     col = to_binary(info->width, 4);
-//     depht = 3;
-
-//     u_int8_t matrice[raw][col][depht];
-//     i = 0;
-//     l = 0;
-//     while (i < raw)
-//     {
-//         j = 0;
-//         while (j < col)
-//         {
-//             k = 0;
-//             // printf("ligne %d\n", i);
-//             // printf("Colone %d\n", j);
-//             while (k < depht)
-//             {
-//                 matrice[i][j][k] = data[l];
-//                 //printf("\tvalue %d\n", matrice[i][j][k]);
-//                 l++;
-//                 k++;
-//             }
-//             j++;
-//         }
-//         i++;
-//     }
-//     (void)matrice;
-//     assert(l == to_binary(info->image_size, 4));
-//     return(0);
-// }
-
-
-int clean_matrice_data(u_int8_t ***matrice, int x, int y);
 
 int main(int argc, char **argv)
 {
@@ -133,11 +98,13 @@ int main(int argc, char **argv)
     u_int8_t ***matrice = get_matrice_data(bmp->data, bmp->info);
     if(!matrice)
     {
+
         bmp->clean(bmp);
         return(1);
     }
-    
-    clean_matrice_data(matrice, 441, 660);
+
+    display_pixel_matrice(matrice, 0,0);
+    clean_matrice_data(matrice, 441, 660, 660);
     bmp->clean(bmp);
     return(0);
 

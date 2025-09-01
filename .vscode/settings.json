@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "bmp.h": "c"
+        "bmp.h": "c",
+        "stdio.h": "c",
+        "cl_platform.h": "c"
     }
 }

@@ -67,7 +67,8 @@ void to_raw(unsigned char *byte, int size);
 int to_binary(unsigned char *byte, int size);
 unsigned char *get_image_data(t_header *header, t_info_header *info,const char *path);
 u_int8_t ***get_matrice_data(unsigned char *data, t_info_header *info);
-
+void *clean_matrice_data(u_int8_t ***matrice, int x, int y, int stop);
 t_bmp *extract_bmp_data(const char *path);
+void    display_pixel_matrice(u_int8_t ***matrice,int x, int y);
 
 #endif

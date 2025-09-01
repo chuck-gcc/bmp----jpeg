@@ -34,6 +34,7 @@ t_bmp *extract_bmp_data(const char *path)
         free(bmp_data);
         return(NULL);
     }
+
     bmp_data->data = get_image_data(bmp_data->header, bmp_data->info, path);
     if(!bmp_data->data)
     {
